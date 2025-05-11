@@ -1,8 +1,16 @@
 {
+  "name": "devpos-app",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "node src/server.js",
+    "test": "jest"
+  },
   "dependencies": {
-    "bcryptjs": "^2.4.3",
-    "cors": "^2.8.5",
-    "express": "^4.18.2",
-    "mysql2": "^3.6.5"
+    "express": "^4.17.1",
+    "mysql2": "^2.3.3",
+    "bcryptjs": "^2.4.3"
+  },
+  "devDependencies": {
+    "jest": "^29.5.0"
   }
 }
