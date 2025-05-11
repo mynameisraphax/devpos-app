@@ -1,28 +1,35 @@
 name: Deploy to VPS
+
 on:
   push:
-    branches: [ main ]
+    branches:
+      - master
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout code
+      - name: Checkout repo
         uses: actions/checkout@v3
-      - name: Install Node.js
-        uses: actions/setup-node@v3
+
+      - name: Copy files via SSH
+        uses: appleboy/scp-action@master
         with:
-          node-version: '20'
-      - name: Install dependencies
-        run: npm install
-      - name: Deploy to VPS
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          password: ${{ secrets.VPS_PASSWORD }}
+          source: "."
+          target: "/var/www/devpos-app"
+          overwrite: true
+
+      - name: Reload PM2 on server
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USERNAME }}
-          key: ${{ secrets.PRIVATE_KEY }}
-          port: 22
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          password: ${{ secrets.VPS_PASSWORD }}
           script: |
             cd /var/www/devpos-app
-            git pull origin main
-            npm install --only=prod
-            pm2 restart server
+            npm install
+            pm2 restart devpos-app
