@@ -39,4 +39,5 @@ jobs:
             cd /var/www/devpos-app
             git pull origin master
             npm install --only=prod
-            pm2 restart server
+            pm2 list | grep server || pm2 start src/server.js --name server
+            pm2 save
