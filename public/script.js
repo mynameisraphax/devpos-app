@@ -29,7 +29,7 @@ document.getElementById('registerForm')?.addEventListener('submit', async (e) =>
   const password = document.getElementById('password').value;
 
   try {
-    const response = await fetch('http://localhost:3000/api/auth/register', {
+    const response = await fetch('https://thcondmontcristo.v6.rocks/api/auth/register', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name, login, email, password }),
